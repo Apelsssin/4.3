@@ -15,22 +15,23 @@ public:
 		}
 		else {
 			//throw std::exception("Количество элементов больше количества элементов, на которую выделена память!");
-			[&]() {
-				int* arr1 = std::move(arr);
-				n *= 2;
-				arr = new int[n];
-				for (int i = 0; i < (n / 2); ++i) {
-					arr[i] = arr1[i];
-				}
-				delete[] arr1;
-				arr[n / 2] = k;
-			}();
+			int* arr1 = new int[n];
+			for (int i = 0; i < n; ++i) {
+					arr1[i] = arr[i];
+			}
+			n *= 2;
+			arr = new int[n];
+			for (int i = 0; i < (n / 2); ++i) {
+				arr[i] = arr1[i];
+			}
+			delete[] arr1;
+			arr[n / 2] = k;
 		}
 		++i;
 	}
 	
 	int get_element(int j) {
-		if (j < n)
+		if (0 <= j < n)
 			return arr[j];
 		else
 			throw std::exception("Некорректный индекс!");
@@ -44,6 +45,8 @@ public:
 	~smart_array () {
 		delete[] arr;
 	}
+	smart_array(const smart_array&) = delete;
+	smart_array& operator=(const smart_array&) = delete;
 };
 
 int main()

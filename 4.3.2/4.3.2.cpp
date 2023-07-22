@@ -15,22 +15,23 @@ public:
 		}
 		else {
 			//throw std::exception("Количество элементов больше количества элементов, на которую выделена память!");
-			[&]() {
-				int* arr1 = std::move(arr);
-				n *= 2;
-				arr = new int[n];
-				for (int i = 0; i < (n / 2); ++i) {
-					arr[i] = arr1[i];
-				}
-				delete[] arr1;
-				arr[n / 2] = k;
-			}();
+			int* arr1 = new int[n];
+			for (int i = 0; i < n; ++i) {
+				arr1[i] = arr[i];
+			}
+			n *= 2;
+			arr = new int[n];
+			for (int i = 0; i < (n / 2); ++i) {
+				arr[i] = arr1[i];
+			}
+			delete[] arr1;
+			arr[n / 2] = k;
 		}
 		++i;
 	}
 
 	int get_element(int j) {
-		if (j < n)
+		if (0 <= j < n)
 			return arr[j];
 		else
 			throw std::exception("Некорректный индекс!");
@@ -41,9 +42,18 @@ public:
 		arr = new int[n];
 	}
 
+	smart_array(const smart_array& arr2) {
+			n = arr2.n;
+			arr = new int[arr2.n];
+			for (int i = 0; i < n; ++i) {
+				arr[i] = arr2.arr[i];
+			}
+	}
+
 	~smart_array() {
 		delete[] arr;
 	}
+
 	smart_array& operator=(const smart_array& arr2) {
 		if (this != &arr2) {
 			delete[] arr;
@@ -51,11 +61,11 @@ public:
 			arr = new int[arr2.n];
 			for (int i = 0; i < n; ++i) {
 				arr[i] = arr2.arr[i];
-				//std::cout << arr[i] << " ";
 			}
 		}
 		return  *this;
 	}
+
 };
 
 int main()
@@ -72,6 +82,9 @@ int main()
 		new_array.add_element(34);
 
 		arr = new_array;
+
+		smart_array arr1(3);
+		smart_array arr2(arr1);
 	}
 	catch (const std::exception& ex) {
 		std::cout << ex.what() << std::endl;
