@@ -31,7 +31,7 @@ public:
 	}
 
 	int get_element(int j) {
-		if (0 <= j < n)
+		if (0 <= j && j < n)
 			return arr[j];
 		else
 			throw std::exception("Некорректный индекс!");
@@ -43,6 +43,7 @@ public:
 	}
 
 	smart_array(const smart_array& arr2) {
+			i = arr2.i;
 			n = arr2.n;
 			arr = new int[arr2.n];
 			for (int i = 0; i < n; ++i) {
@@ -62,6 +63,7 @@ public:
 			for (int i = 0; i < n; ++i) {
 				arr[i] = arr2.arr[i];
 			}
+			i = arr2.i;
 		}
 		return  *this;
 	}

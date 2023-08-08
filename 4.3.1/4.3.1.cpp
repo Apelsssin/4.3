@@ -31,7 +31,7 @@ public:
 	}
 	
 	int get_element(int j) {
-		if (0 <= j < n)
+		if (0 <= j && j < n)
 			return arr[j];
 		else
 			throw std::exception("Некорректный индекс!");
